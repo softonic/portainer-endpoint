@@ -1,0 +1,69 @@
+version: "3.3"
+
+networks:
+  portainer:
+    attachable: true
+
+volumes:
+  portainer:
+    driver: ${VOLUME_DRIVER}
+
+services:
+  portainer:
+    image: portainer/portainer
+    networks:
+      - portainer
+      - traefik-priv
+    ports:
+      - 9000:9000
+    volumes:
+      - portainer:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: [
+        "--admin-password", "${PORTAINER_ENC_PASS}"
+    ]
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
+      resources:
+        limits:
+          cpus: '0.20'
+          memory: 30M
+        reservations:
+          cpus: '0.10'
+          memory: 25M
+
+  portainer-endpoint:
+    image: softonic/portainer-endpoint
+    networks:
+      - portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /etc/hostname:/etc/host_hostname
+    environment:
+      HOST_HOSTNAME: "/etc/host_hostname"
+      PORTAINER_ADDR: "portainer:9000"
+      PORTAINER_USER: "admin"
+      PORTAINER_PASS: "--DOCKER-SECRET:portainer_password--"
+    secrets:
+      - source: "portainer_password.v1"
+        target: "portainer_password"
+        uid: "33"
+        gid: "33"
+        mode: 0400
+    deploy:
+      mode: global
+      resources:
+        limits:
+          cpus: '0.10'
+          memory: 20M
+        reservations:
+          cpus: '0.05'
+          memory: 10M
+
+secrets:
+  portainer_password.v1:
+    external: true
