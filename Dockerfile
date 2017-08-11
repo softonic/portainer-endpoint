@@ -6,10 +6,11 @@ ARG "commit_hash=unknown"
 ARG "vcs_url=unknown"
 ARG "vcs_branch=unknown"
 
-#ENV "HOST_HOSTNAME=/etc/host_hostname" \
-#    "PORTAINER_ADDR=mssing-portainer-address" \
-#    "PORTAINER_USER=missing-username" \
-#    "PORTAINER_PASS=missing-password"
+ENV HOST_HOSTNAME=/etc/host_hostname \
+    PORTAINER_ADDR=mssing-portainer-address \
+    PORTAINER_USER=missing-username \
+    PORTAINER_PASS=missing-password \
+    SLEEP_IF_WORKER=10
 
 LABEL org.label-schema.vendor="Softonic" \
     org.label-schema.name="Portainer-Endpoint" \
@@ -25,7 +26,8 @@ LABEL org.label-schema.vendor="Softonic" \
     org.label-schema.docker.params="HOST_HOSTNAME=Host hostname,\
 PORTAINER_ADDR=Portainer address,\
 PORTAINER_USER=Username to login,\
-PORTAINER_PASS=Password to login \
+PORTAINER_PASS=Password to login, \
+SLEEP_IF_WORKER=Seconds to wait before register the node in Portainer in case it's a worker \
 " \
     org.label-schema.build-date=$build_date
 

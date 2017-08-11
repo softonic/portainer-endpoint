@@ -43,7 +43,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/hostname:/etc/host_hostname
     environment:
-      HOST_HOSTNAME: "/etc/host_hostname"
       PORTAINER_ADDR: "portainer:9000"
       PORTAINER_USER: "admin"
       PORTAINER_PASS: "--DOCKER-SECRET:portainer_password--"

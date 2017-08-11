@@ -1,6 +1,8 @@
 # Portainer Endpoint
 
-This image allows to auto register all the swarm nodes in a portainer running in the same cluster and network.
+[![](https://images.microbadger.com/badges/image/softonic/portainer-endpoint.svg)](https://microbadger.com/images/softonic/portainer-endpoint "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/softonic/portainer-endpoint.svg)](https://microbadger.com/images/softonic/portainer-endpoint "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/commit/softonic/portainer-endpoint.svg)](https://microbadger.com/images/softonic/portainer-endpoint "Get your own commit badge on microbadger.com")
+
+This image allows to auto register all the swarm nodes in a Portainer running in the same cluster and network.
 
 ## How to use
 
@@ -14,10 +16,14 @@ You need to create a global service and pass some options and env vars.
 
 ### Environment Variables
 
-- HOST_HOSTNAME: (Optional) Just in case you want to change the mount point of the file that contains the name of the host
-- PORTAINER_ADDR: Name and port where portainer is configured
-- PORTAINER_USER: Username used to login to Portainer
-- PORTAINER_PASS: Password used to login to Portainer
+- `HOST_HOSTNAME`:   (Optional) Just in case you want to change the mount point of the file that contains the name of the host
+- `PORTAINER_ADDR`:  Name and port where Portainer is configured
+- `PORTAINER_USER`:  Username used to login to Portainer
+- `PORTAINER_PASS`:  Password used to login to Portainer
+- `SLEEP_IF_WORKER`: Seconds to wait before register the node if it's a worker
+
+The `SLEEP_IF_WORKER` is useful to avoid that a worker is the first to register to Portainer, because it loads by default
+the first registered endpoint, if it's a worker you won't have the cluster overview in a first sight.
 
 ### Example of use as a container
 
@@ -68,11 +74,11 @@ echo $PORTAINER_PASS | docker secret create portainer_password.v1 --label portai
 docker stack deploy --compose-file docker-compose.yml portainer
 ```
 
-Once the stack is deployed and running you can go to the port `9000` on any of your cluster nodes to reach portainer.
+Once the stack is deployed and running you can go to the port `9000` on any of your cluster nodes to reach Portainer.
 You'll see all the nodes in your cluster are already registered.
 
 #### Requirements
 
 - It needs Docker >17.04 because of the version of the stack file.
-- In this example I'm using a secret for the portainer password in the endpoints.
+- In this example I'm using a secret for the Portainer password in the endpoints.
 - Its usage is optional, you can use the environment variable with the password in clear text (not recommended).

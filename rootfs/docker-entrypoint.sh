@@ -18,9 +18,23 @@ else
   host_hostname=$(cat ${HOST_HOSTNAME})
 fi
 
+# Obtain NodeID from docker socket
+node_id=$(curl -s --unix-socket /var/run/docker.sock http:/v1.27/info | jq -r '.Swarm.NodeID')
+if [ -n "$node_id" ]; then
+  is_manager=$(curl -s --unix-socket /var/run/docker.sock http:/v1.27/info | jq --arg NodeID "$node_id" -c '.Swarm.RemoteManagers[] | select(.NodeID  | contains($NodeID))')
+  if [[ -z "$is_manager" ]]; then
+    echo "Sleeping ${SLEEP_IF_WORKER} seconds because the node is not a manager"
+    sleep ${SLEEP_IF_WORKER}
+  else
+    echo "This node is manager, don't sleep!"
+  fi
+fi
+
 # Get Portainer JWT
 #jwt=$(http POST "${PORTAINER_ADDR}/api/auth" Username="${PORTAINER_USER}" Password="${PORTAINER_PASS}" | jq -r .jwt)
 jwt=$(curl -sf -X POST -H "Accept: application/json, */*" -H "Content-Type: application/json" --data "{\"Username\": \"${PORTAINER_USER}\", \"Password\": \"${PORTAINER_PASS}\"}" "${PORTAINER_ADDR}/api/auth"  | jq -r .jwt)
+
+[ -z "$jwt" ] && echo "Can't connect or login with Portainer" && exit 1
 
 # Check if the host is already registered
 # registered_hosts=$(http --auth-type=jwt --auth="${jwt}" ${PORTAINER_ADDR}/api/endpoints | jq --arg HOST "$host_hostname" -c '.[] | select(.Name == $HOST) | .Id')
