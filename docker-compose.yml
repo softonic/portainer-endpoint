@@ -1,4 +1,4 @@
-version: "3.3"
+version: "3.2"
 
 networks:
   portainer:
@@ -13,7 +13,6 @@ services:
     image: portainer/portainer
     networks:
       - portainer
-      - traefik-priv
     ports:
       - 9000:9000
     volumes:

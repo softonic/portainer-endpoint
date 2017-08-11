@@ -68,5 +68,11 @@ echo $PORTAINER_PASS | docker secret create portainer_password.v1 --label portai
 docker stack deploy --compose-file docker-compose.yml portainer
 ```
 
-In this example I'm using a secret for the portainer password in the endpoints.
-Its usage is optional, you can use the environment variable with the password in clear text (not recommended).
+Once the stack is deployed and running you can go to the port `9000` on any of your cluster nodes to reach portainer.
+You'll see all the nodes in your cluster are already registered.
+
+#### Requirements
+
+- It needs Docker >17.04 because of the version of the stack file.
+- In this example I'm using a secret for the portainer password in the endpoints.
+- Its usage is optional, you can use the environment variable with the password in clear text (not recommended).
