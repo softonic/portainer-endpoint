@@ -4,9 +4,19 @@
 
 This image allows to auto register all the swarm nodes in a Portainer running in the same cluster and network.
 
+## The goal
+
+Currently when running under `Docker Swarm mode` portainer has visibility of services and their tasks, but from the task you cannot get the logs/ssh session/etc.
+
+In the container tab you have only access to the containers running in the host where Portainer is connected. In case you want to get this functionality on containers running on other nodes of the cluster you need to add manually the connection details, which is not a valid solution in an elastic swarm cluster where nodes are added and removed continuously.
+
+This image allows you to make automatic this process.
+
 ## How to use
 
 You need to create a global service and pass some options and env vars.
+
+Thanks to the "global service" concept in Swarm mode we can run a service ensuring that each node is running a service task. In case the cluster adds more nodes Swarm is the responsible of launch a new task in the node, it's totally automatic.
 
 ### Options
 - Network: It's important to attach this service in a network where Portainer is attached.
