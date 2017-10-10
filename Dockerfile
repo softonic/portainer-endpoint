@@ -27,6 +27,7 @@ LABEL org.label-schema.vendor="Softonic" \
 PORTAINER_ADDR=Portainer address,\
 PORTAINER_USER=Username to login,\
 PORTAINER_PASS=Password to login, \
+SSL_IGNORE_CERTIFICATION_CHECK=Allow insecure connections to portainer when using SSL, \
 SLEEP_IF_WORKER=Seconds to wait before register the node in Portainer in case it's a worker \
 " \
     org.label-schema.build-date=$build_date

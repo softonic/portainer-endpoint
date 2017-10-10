@@ -20,6 +20,7 @@ You need to create a global service and pass some options and env vars.
 - `PORTAINER_ADDR`:  Name and port where Portainer is configured
 - `PORTAINER_USER`:  Username used to login to Portainer
 - `PORTAINER_PASS`:  Password used to login to Portainer
+- `SSL_IGNORE_CERTIFICATION_CHECK`: Activate it in case you don't want to validate the certificate in the Portainer service
 - `SLEEP_IF_WORKER`: Seconds to wait before register the node if it's a worker
 
 The `SLEEP_IF_WORKER` is useful to avoid that a worker is the first to register to Portainer, because it loads by default
@@ -79,6 +80,6 @@ You'll see all the nodes in your cluster are already registered.
 
 #### Requirements
 
-- It needs Docker >17.04 because of the version of the stack file.
-- In this example I'm using a secret for the Portainer password in the endpoints.
-- Its usage is optional, you can use the environment variable with the password in clear text (not recommended).
+- It needs Docker >17.04 because of the version of the stack file
+- In this example I'm using a secret for the Portainer password in the endpoints
+- Its usage is optional, you can use the environment variable with the password in clear text (not recommended)
