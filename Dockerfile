@@ -1,15 +1,15 @@
-FROM alpine:3.6
+FROM alpine:3.7
 
-ARG "version=0.1.0-dev"
-ARG "build_date=unknown"
-ARG "commit_hash=unknown"
-ARG "vcs_url=unknown"
-ARG "vcs_branch=unknown"
+ARG version="0.1.0-dev"
+ARG build_date="unknown"
+ARG commit_hash="unknown"
+ARG vcs_url="unknown"
+ARG vcs_branch="unknown"
 
-ENV HOST_HOSTNAME=/etc/host_hostname \
-    PORTAINER_ADDR=mssing-portainer-address \
+ENV PORTAINER_ADDR=mssing-portainer-address \
     PORTAINER_USER=missing-username \
     PORTAINER_PASS=missing-password \
+    SSL_IGNORE_CERTIFICATION_CHECK=0 \
     SLEEP_IF_WORKER=10
 
 LABEL org.label-schema.vendor="Softonic" \

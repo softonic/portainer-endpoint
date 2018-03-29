@@ -1,4 +1,4 @@
-version: "3.2"
+version: "3.4"
 
 networks:
   portainer:
@@ -6,11 +6,11 @@ networks:
 
 volumes:
   portainer:
-    driver: ${VOLUME_DRIVER}
+    driver: ${VOLUME_DRIVER:-local}
 
 services:
   portainer:
-    image: portainer/portainer
+    image: portainer/portainer:${PORTAINER_VERSION:-latest}
     networks:
       - portainer
     ports:
@@ -21,6 +21,12 @@ services:
     command: [
         "--admin-password", "${PORTAINER_ENC_PASS}"
     ]
+    secrets:
+      - source: "portainer_password.v1"
+        target: "portainer_password"
+        uid: "33"
+        gid: "33"
+        mode: 0400
     deploy:
       mode: replicated
       replicas: 1
@@ -36,12 +42,12 @@ services:
           memory: 25M
 
   portainer-endpoint:
-    image: softonic/portainer-endpoint
+    image: softonic/portainer-endpoint:${PORTAINER_ENDPOINT_VERSION:-latest}
     networks:
       - portainer
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - /etc/hostname:/etc/host_hostname
+    hostname: "{{ .Node.Hostname }}"
     environment:
       PORTAINER_ADDR: "portainer:9000"
       PORTAINER_USER: "admin"

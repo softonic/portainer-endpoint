@@ -36,7 +36,7 @@ docker container run \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
   --mount type=bind,source=/etc/hostname,target=/etc/host_hostname \
   --network portainer \
-  -e HOST_HOSTNAME=/etc/host_hostname \
+  --hostname="{{.Node.Hostname}} \
   -e PORTAINER_ADDR=portainer:9000 \
   -e PORTAINER_USER=admin \
   -e PORTAINER_PASS=12341234 \
@@ -52,9 +52,9 @@ docker service create --with-registry-auth \
   --name portainer-endpoint \
   --mount type=bind,source=/var/run/docker.sock,target=/var/run/docker.sock \
   --mount type=bind,source=/etc/hostname,target=/etc/host_hostname \
+  --hostname="{{.Node.Hostname}} \
   --network portainer \
   --mode global \
-  -e HOST_HOSTNAME=/etc/host_hostname \
   -e PORTAINER_ADDR=portainer:9000 \
   -e PORTAINER_USER=admin \
   -e PORTAINER_PASS=12341234 \
@@ -81,5 +81,6 @@ You'll see all the nodes in your cluster are already registered.
 #### Requirements
 
 - It needs Docker >17.04 because of the version of the stack file
+- It needs Docker >17.10.0 for get rid of the host name mounted as a volume (`--mount type=bind,source=/etc/hostname,target=/etc/host_hostname`) and the `-e HOST_HOSTNAME=/etc/host_hostname` variable. 
 - In this example I'm using a secret for the Portainer password in the endpoints
 - Its usage is optional, you can use the environment variable with the password in clear text (not recommended)
