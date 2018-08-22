@@ -1,3 +1,9 @@
+# DEPRECATED
+This project won't be maintained anymore, now Portainer has its own agent which is natively integrated.
+
+Image here: https://hub.docker.com/r/portainer/agent/
+Docs available here: https://portainer.readthedocs.io/en/stable/agent.html
+
 # Portainer Endpoint
 
 [![](https://images.microbadger.com/badges/image/softonic/portainer-endpoint.svg)](https://microbadger.com/images/softonic/portainer-endpoint "Get your own image badge on microbadger.com") [![](https://images.microbadger.com/badges/version/softonic/portainer-endpoint.svg)](https://microbadger.com/images/softonic/portainer-endpoint "Get your own version badge on microbadger.com") [![](https://images.microbadger.com/badges/commit/softonic/portainer-endpoint.svg)](https://microbadger.com/images/softonic/portainer-endpoint "Get your own commit badge on microbadger.com")
